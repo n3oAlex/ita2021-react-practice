@@ -1,2 +1,1 @@
-# ita-alexandr-hanak-2021-2
-
+# Simple React counter
