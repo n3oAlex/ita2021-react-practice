@@ -4,51 +4,47 @@ import Clicker from "./click/Clicker";
 import Counter from "./click/Counter";
 import HackerTyper from "./hack/HackerTyper";
 import TodoApp from "./todo/TodoApp";
+import styled from "styled-components";
 
-const mainStyle = {
-  display: "flex",
-  flexDirection: "column" as "column",
-  justifyContent: "space-around",
-  width: "100vw",
-  paddingTop: "50px",
-  alignItems: "center",
-  fontFamily: "Calibri",
-};
+const Main = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
+  padding-top: 50px;
+  align-items: center;
+  font-family: "Calibri";
+`;
 
-const navStyle = {
-  height: "40px",
-  display: "flex",
-  justifyContent: "space-around",
-};
+const StyledNav = styled.nav`
+  height: 40px;
+  display: flex;
+  justify-content: space-evenly;
+`;
 
-const linkStyle = {
-  color: "lightgray",
-  textDecoration: "none",
-};
+const StyledLink = styled(Link)`
+  font-weight: bold;
+  font-family: "Calibri";
+  color: #114068;
+  text-decoration: none;
+  font-size: 20px;
+`;
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <nav style={navStyle}>
-          <Link style={linkStyle} to="/">
-            Home
-          </Link>
+        <StyledNav>
+          <StyledLink to="/">Home</StyledLink>
 
-          <Link style={linkStyle} to="/click">
-            /click
-          </Link>
+          <StyledLink to="/click">/click</StyledLink>
 
-          <Link style={linkStyle} to="/todo">
-            /todo
-          </Link>
+          <StyledLink to="/todo">/todo</StyledLink>
 
-          <Link style={linkStyle} to="/hack">
-            /hack
-          </Link>
-        </nav>
+          <StyledLink to="/hack">/hack</StyledLink>
+        </StyledNav>
 
-        <div style={mainStyle}>
+        <Main>
           <Switch>
             <Route exact path="/">
               <h1>Welcome home</h1>
@@ -57,14 +53,14 @@ function App() {
               <Counter />
               <Clicker />
             </Route>
-            <Route exact path="/todo">
+            <Route path="/todo">
               <TodoApp />
             </Route>
             <Route exact path="/hack">
               <HackerTyper />
             </Route>
           </Switch>
-        </div>
+        </Main>
       </div>
     </Router>
   );
