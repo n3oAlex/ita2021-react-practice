@@ -7,7 +7,7 @@ const divStyle = {
   height: "50%",
   justifyContent: "space-around",
   fontSize: "3em",
-  borderBottom: "1px solid lightgray",
+  borderBottom: "2px dotted #114068",
   alignItems: "center",
 };
 
