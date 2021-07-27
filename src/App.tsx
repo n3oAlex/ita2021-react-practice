@@ -1,4 +1,3 @@
-import "./App.css";
 import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import Clicker from "./click/Clicker";
 import Counter from "./click/Counter";
@@ -6,7 +5,7 @@ import HackerTyper from "./hack/HackerTyper";
 import TodoApp from "./todo/TodoApp";
 import styled from "styled-components";
 
-const Main = styled.div`
+const DivMain = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -16,13 +15,13 @@ const Main = styled.div`
   font-family: "Calibri";
 `;
 
-const StyledNav = styled.nav`
+const NavStyled = styled.nav`
   height: 40px;
   display: flex;
   justify-content: space-evenly;
 `;
 
-const StyledLink = styled(Link)`
+const LinkStyled = styled(Link)`
   font-weight: bold;
   font-family: "Calibri";
   color: #114068;
@@ -34,17 +33,17 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <StyledNav>
-          <StyledLink to="/">Home</StyledLink>
+        <NavStyled>
+          <LinkStyled to="/">Home</LinkStyled>
 
-          <StyledLink to="/click">/click</StyledLink>
+          <LinkStyled to="/click">/click</LinkStyled>
 
-          <StyledLink to="/todo">/todo</StyledLink>
+          <LinkStyled to="/todo">/todo</LinkStyled>
 
-          <StyledLink to="/hack">/hack</StyledLink>
-        </StyledNav>
+          <LinkStyled to="/hack">/hack</LinkStyled>
+        </NavStyled>
 
-        <Main>
+        <DivMain>
           <Switch>
             <Route exact path="/">
               <h1>Welcome home</h1>
@@ -60,7 +59,7 @@ function App() {
               <HackerTyper />
             </Route>
           </Switch>
-        </Main>
+        </DivMain>
       </div>
     </Router>
   );

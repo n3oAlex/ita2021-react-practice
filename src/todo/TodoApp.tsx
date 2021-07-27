@@ -10,7 +10,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 
 //#region Styled components
-const StyledLink = styled(NavLink)`
+const NavLinkStyled = styled(NavLink)`
   color: #114068;
   font-weight: bold;
   text-decoration: none;
@@ -20,12 +20,12 @@ const StyledLink = styled(NavLink)`
   }
 `;
 
-const TaskFilters = styled.div`
+const DivTaskFilters = styled.div`
   display: flex;
   justify-content: space-evenly;
 `;
 
-const TaskList = styled.div`
+const DivTaskList = styled.div`
   display: flex;
   flex-direction: column;
   max-height: 75vh;
@@ -33,7 +33,7 @@ const TaskList = styled.div`
   padding-right: 15px;
 `;
 
-const AppContainer = styled.div`
+const DivAppContainer = styled.div`
   width: 30em;
 `;
 
@@ -46,7 +46,7 @@ const Button = styled.button`
   }
 `;
 
-const AddTaskInput = styled.input`
+const InputAddTaskInput = styled.input`
   height: 2em;
   margin: 0;
   width: 100%;
@@ -58,7 +58,7 @@ const AddTaskInput = styled.input`
   padding: 0 15px;
 `;
 
-const AddTaskBox = styled.div`
+const DivAddTaskBox = styled.div`
   display: flex;
   margin-bottom: 2em;
 `;
@@ -76,19 +76,19 @@ type TaskType = {
 type State = { tasks: TaskType[] };
 //#endregion
 export default class TodoApp extends Component<{}, State> {
-  addTaskInput: any;
+  InputAddTaskInput: any;
 
   constructor(props) {
     super(props);
     this.state = {
       tasks: this.getFromStorage(),
     };
-    this.addTaskInput = React.createRef();
+    this.InputAddTaskInput = React.createRef();
   }
 
   componentDidMount() {
     document.title = "React showcase - Todo App";
-    this.addTaskInput.current.focus();
+    this.InputAddTaskInput.current.focus();
   }
 
   componentDidUpdate() {
@@ -96,14 +96,14 @@ export default class TodoApp extends Component<{}, State> {
   }
 
   addTask = () => {
-    if (this.addTaskInput.current.value === "") {
-      this.addTaskInput.current.focus();
+    if (this.InputAddTaskInput.current.value === "") {
+      this.InputAddTaskInput.current.focus();
       return;
     }
     const d = new Date();
     const newTask: TaskType = {
       id: Math.random().toString(36).replace("0.", ""),
-      text: this.addTaskInput.current.value,
+      text: this.InputAddTaskInput.current.value,
       completed: false,
       createdAt: d.getTime(),
       completedAt: null,
@@ -113,8 +113,8 @@ export default class TodoApp extends Component<{}, State> {
         tasks: [...p.tasks, newTask],
       };
     });
-    this.addTaskInput.current.value = "";
-    this.addTaskInput.current.focus();
+    this.InputAddTaskInput.current.value = "";
+    this.InputAddTaskInput.current.focus();
   };
 
   toggleTask = (id: string) => {
@@ -165,23 +165,23 @@ export default class TodoApp extends Component<{}, State> {
   render() {
     return (
       <Router>
-        <AppContainer>
-          <AddTaskBox>
-            <AddTaskInput
-              ref={this.addTaskInput}
+        <DivAppContainer>
+          <DivAddTaskBox>
+            <InputAddTaskInput
+              ref={this.InputAddTaskInput}
               onKeyPress={this.handleAddKey}
               type="text"
             />
             <Button onClick={this.addTask}>
               <TickIcon />
             </Button>
-          </AddTaskBox>
-          <TaskFilters>
-            <StyledLink to="/todo/all">All</StyledLink>
-            <StyledLink to="/todo/active">Active</StyledLink>
-            <StyledLink to="/todo/completed">Completed</StyledLink>
-          </TaskFilters>
-          <TaskList>
+          </DivAddTaskBox>
+          <DivTaskFilters>
+            <NavLinkStyled to="/todo/all">All</NavLinkStyled>
+            <NavLinkStyled to="/todo/active">Active</NavLinkStyled>
+            <NavLinkStyled to="/todo/completed">Completed</NavLinkStyled>
+          </DivTaskFilters>
+          <DivTaskList>
             <Switch>
               <Redirect exact from="/todo" to="/todo/all" />
               <Route exact path="/todo/all">
@@ -215,8 +215,8 @@ export default class TodoApp extends Component<{}, State> {
                 />
               </Route>
             </Switch>
-          </TaskList>
-        </AppContainer>
+          </DivTaskList>
+        </DivAppContainer>
       </Router>
     );
   }

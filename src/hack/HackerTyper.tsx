@@ -2,13 +2,13 @@ import { Dummy } from "./dummyCode";
 import React, { Component } from "react";
 import styled from "styled-components";
 
-const Buttons = styled.div`
+const DivButtons = styled.div`
   display: flex;
   width: 3.5em;
   justify-content: space-between;
 `;
 
-const Console = styled.textarea`
+const TextAreaConsole = styled.textarea`
   height: 50vh;
   width: 50vw;
   min-width: 350px;
@@ -19,11 +19,11 @@ const Console = styled.textarea`
   color: #1c6aaa;
 `;
 
-const Title = styled.div`
+const DivTitle = styled.div`
   font-weight: bold;
 `;
 
-const Titlebar = styled.div`
+const DivTitleBar = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 10px 15px;
@@ -33,38 +33,33 @@ const Titlebar = styled.div`
   align-items: center;
 `;
 
-const Window = styled.div`
+const DivWindow = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 350px;
   min-height: 450px;
 `;
 
-const Button = styled.div`
+const DivButton = styled.div`
   height: 15px;
   width: 15px;
   border-radius: 15px;
   background: ${(props) => props.color};
 `;
 
+const CHUNK_SIZE = 16;
+const FILE = Dummy;
+const FILE_SIZE = FILE.length;
+const TOTAL_CHUNKS = Math.ceil(FILE_SIZE / CHUNK_SIZE);
+
 export default class HackerTyper extends Component<{}, {}> {
   hackerConsole: any;
   currentChunk: number;
-  totalChunks: number;
-  chunkSize: number;
-  fileName: string;
-  fileSize: number;
-  file: string;
 
   constructor(props) {
     super(props);
     this.hackerConsole = React.createRef();
     this.currentChunk = 1;
-    this.chunkSize = 16;
-    this.file = Dummy;
-    this.fileSize = this.file.length;
-    this.totalChunks = Math.ceil(this.fileSize / this.chunkSize);
-    this.fileName = "./dummyCode.txt";
   }
 
   componentDidMount() {
@@ -76,19 +71,18 @@ export default class HackerTyper extends Component<{}, {}> {
     e.preventDefault();
     this.pasteChunk();
 
-    // keep the text area scrolled down
     this.hackerConsole.current.scrollTop =
       this.hackerConsole.current.scrollHeight;
   };
 
   pasteChunk() {
-    if (this.currentChunk >= this.totalChunks) {
+    if (this.currentChunk >= TOTAL_CHUNKS) {
       this.hackerConsole.current.value = "";
       this.currentChunk = 1;
     }
 
-    const offset = (this.currentChunk - 1) * this.chunkSize;
-    const currentFilePart = this.file.slice(offset, offset + this.chunkSize);
+    const offset = (this.currentChunk - 1) * CHUNK_SIZE;
+    const currentFilePart = FILE.slice(offset, offset + CHUNK_SIZE);
 
     this.hackerConsole.current.value += currentFilePart;
     this.currentChunk++;
@@ -96,20 +90,20 @@ export default class HackerTyper extends Component<{}, {}> {
 
   render() {
     return (
-      <Window>
-        <Titlebar>
-          <Title>hackerConsole -- /pentagon/secrets/</Title>
-          <Buttons>
-            <Button color={"#008000b8"} />
-            <Button color={"#ffff0099"} />
-            <Button color={"#ff000099"} />
-          </Buttons>
-        </Titlebar>
-        <Console
+      <DivWindow>
+        <DivTitleBar>
+          <DivTitle>hackerConsole -- /pentagon/secrets/</DivTitle>
+          <DivButtons>
+            <DivButton color={"#008000b8"} />
+            <DivButton color={"#ffff0099"} />
+            <DivButton color={"#ff000099"} />
+          </DivButtons>
+        </DivTitleBar>
+        <TextAreaConsole
           ref={this.hackerConsole}
           onKeyPress={this.handleKeyPress}
-        ></Console>
-      </Window>
+        ></TextAreaConsole>
+      </DivWindow>
     );
   }
 }

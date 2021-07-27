@@ -1,7 +1,7 @@
 import { Component } from "react";
 import styled from "styled-components";
 
-const StyledTask = styled.div<{ completed: boolean }>`
+const DivStyledTask = styled.div<{ completed: boolean }>`
   background: transparent;
   display: flex;
   justify-content: space-between;
@@ -38,7 +38,7 @@ type Props = {
 export class Task extends Component<Props, {}> {
   render() {
     return (
-      <StyledTask completed={this.props.task.completed}>
+      <DivStyledTask completed={this.props.task.completed}>
         <h2>{this.props.task.text}</h2>
         <div>
           <Button
@@ -56,7 +56,7 @@ export class Task extends Component<Props, {}> {
             <TrashIcon />
           </Button>
         </div>
-      </StyledTask>
+      </DivStyledTask>
     );
   }
 }
