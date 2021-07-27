@@ -52,14 +52,18 @@ const FILE = Dummy;
 const FILE_SIZE = FILE.length;
 const TOTAL_CHUNKS = Math.ceil(FILE_SIZE / CHUNK_SIZE);
 
-export default class HackerTyper extends Component<{}, {}> {
+export default class HackerTyper extends Component<
+  {},
+  { currentChunk: number }
+> {
   hackerConsole: any;
-  currentChunk: number;
 
   constructor(props) {
     super(props);
     this.hackerConsole = React.createRef();
-    this.currentChunk = 1;
+    this.state = {
+      currentChunk: 1,
+    };
   }
 
   componentDidMount() {
@@ -76,16 +80,24 @@ export default class HackerTyper extends Component<{}, {}> {
   };
 
   pasteChunk() {
-    if (this.currentChunk >= TOTAL_CHUNKS) {
+    if (this.state.currentChunk >= TOTAL_CHUNKS) {
       this.hackerConsole.current.value = "";
-      this.currentChunk = 1;
+      this.setState(() => {
+        return {
+          currentChunk: 1,
+        };
+      });
     }
 
-    const offset = (this.currentChunk - 1) * CHUNK_SIZE;
+    const offset = (this.state.currentChunk - 1) * CHUNK_SIZE;
     const currentFilePart = FILE.slice(offset, offset + CHUNK_SIZE);
 
     this.hackerConsole.current.value += currentFilePart;
-    this.currentChunk++;
+    this.setState((p) => {
+      return {
+        currentChunk: p.currentChunk + 1,
+      };
+    });
   }
 
   render() {
