@@ -80,14 +80,22 @@ const DivGameboard = styled.div<{ boardSize: number }>`
 //#region Game settings
 type Player = 1 | 2;
 type GameState = "play" | "won" | "draw" | "reset";
+type LastPlay = {
+  position: { x: number; y: number };
+  player: Player | null;
+};
 const maxGameSize = 16; // works with more, 16+ is annoying on my screen
 const winLineLength = 5; // could be derived from boardSize etc.
+const firstPlay = {
+  position: { x: 0, y: 0 },
+  player: null,
+};
 //#endregion
 
 export function TicTac() {
   const [boardSize, setBoardSize] = useState(10);
   const [gameboard, setGameboard] = useState<number[][]>(
-    new Array(boardSize).fill(0).map(() => new Array(boardSize).fill(0))
+    generateEmptyBoard(boardSize)
   );
   // current player
   const [cPlayer, setCPlayer] = useState<Player>(1);
@@ -95,13 +103,7 @@ export function TicTac() {
   // game state
   const [game, setGame] = useState<GameState>("play");
   const [round, setRound] = useState(0);
-  const [lastPlay, setLastPlay] = useState<{
-    position: { x: number; y: number };
-    player: Player | null;
-  }>({
-    position: { x: 0, y: 0 },
-    player: null,
-  });
+  const [lastPlay, setLastPlay] = useState<LastPlay>(firstPlay);
 
   const move = (x: number, y: number) => {
     if (gameboard[y][x] !== 0) return;
@@ -109,107 +111,50 @@ export function TicTac() {
 
     setRound((p) => ++p);
     setGameboard((p) => {
-      let copy = [...p];
-      copy[y][x] = cPlayer;
+      const copy = p.map((row, cY) => {
+        if (cY === y)
+          return row.map((position, cX) => {
+            if (cX === x) return cPlayer;
+            else return position;
+          });
+        else return row;
+      });
       setLastPlay({ position: { x: x, y: y }, player: cPlayer });
       return copy;
     });
     setCPlayer((p) => (p === 1 ? 2 : 1));
   };
 
-  const checkWinConditions = () => {
-    if (!lastPlay.player) return;
-    if (game !== "play") return;
-
-    let won = false;
-    const { x, y } = lastPlay.position;
-    const player = lastPlay.player;
-
-    const sX = x - (winLineLength - 1);
-    const eX = x + (winLineLength - 1);
-    const sY = y - (winLineLength - 1);
-    const eY = y + (winLineLength - 1);
-
-    //vertical
-    let streak = 0;
-    for (let i = sY; i <= eY; i++) {
-      if (i < 0 || i >= boardSize) continue;
-
-      if (gameboard[i][x] === player) streak++;
-      else streak = 0;
-      if (streak >= winLineLength) won = true;
-    }
-
-    //horizontal
-    streak = 0;
-    for (let i = sX; i <= eX; i++) {
-      if (i < 0 || i >= boardSize) continue;
-
-      if (gameboard[y][i] === player) streak++;
-      else streak = 0;
-      if (streak >= winLineLength) won = true;
-    }
-
-    //diagonal
-    streak = 0;
-    for (let i = sX, j = sY; i <= eX && j <= eY; i++, j++) {
-      if (i < 0 || i >= boardSize) continue;
-      if (j < 0 || j >= boardSize) continue;
-
-      if (gameboard[j][i] === player) streak++;
-      else streak = 0;
-      if (streak >= winLineLength) won = true;
-    }
-
-    //anti-diagonal
-    streak = 0;
-    for (let i = eX, j = sY; i >= sX && j <= eY; i--, j++) {
-      if (i < 0 || i >= boardSize) continue;
-      if (j < 0 || j >= boardSize) continue;
-
-      if (gameboard[j][i] === player) streak++;
-      else streak = 0;
-      if (streak >= winLineLength) won = true;
-    }
-
-    if (won) {
-      setWinner(player);
-      setGame("won");
-      return;
-    }
-
-    if (round === boardSize ** 2) setGame("draw");
-  };
-
   // reset game on BoardSize change
   useEffect(() => {
-    setGame("reset");
+    setGameState("reset");
   }, [boardSize]);
 
-  // gameloop on render
   useEffect(() => {
-    switch (game) {
-      case "reset":
-        setGameboard(
-          new Array(boardSize).fill(0).map(() => new Array(boardSize).fill(0))
-        );
-        setWinner(null);
-        setCPlayer(1);
-        setRound(0);
-        setLastPlay({ player: null, position: { x: 0, y: 0 } });
-        setGame("play");
-        break;
-      case "play":
-        checkWinConditions();
-        break;
-      case "draw":
-      case "won":
-      default:
-        break;
-    }
-  });
+    const [newGS, winner] = checkWinConditions(
+      gameboard,
+      lastPlay,
+      game,
+      winLineLength,
+      boardSize,
+      round
+    );
+    setWinner(winner);
+    setGameState(newGS);
+  }, [round]);
 
-  const gameSwitch = () => {
+  const setGameState = (newState: GameState) => {
+    if (newState === "reset") {
+      setGameboard(generateEmptyBoard(boardSize));
+      setWinner(null);
+      setCPlayer(1);
+      setRound(0);
+      setLastPlay(firstPlay);
+      setGameState("play");
+    } else setGame(newState);
+  };
+
+  const gameStatusSwitch = () => {
     switch (game) {
       case "won":
         return (
@@ -245,7 +190,7 @@ export function TicTac() {
   const Reset = () => (
     <ButtonReset
       onClick={() => {
-        setGame("reset");
+        setGameState("reset");
       }}
     >
       <ResetIcon />
@@ -254,7 +199,7 @@ export function TicTac() {
 
   return (
     <>
-      <DivGameStatus>{gameSwitch()}</DivGameStatus>
+      <DivGameStatus>{gameStatusSwitch()}</DivGameStatus>
       <DivBoardControl>
         <ButtonChangeSize
           onClick={() => {
@@ -356,4 +301,80 @@ const CircleIcon = ({ winner }: { winner?: number | null }) => (
     />
   </svg>
 );
+//#endregion
+
+//#region Separable
+const generateEmptyBoard = (boardSize: number): number[][] => {
+  return Array.from({ length: boardSize }, () =>
+    Array.from({ length: boardSize }, () => 0)
+  );
+};
+
+const checkWinConditions = (
+  gameboard: number[][],
+  lastPlay: LastPlay,
+  gameState: GameState,
+  winLineLength: number,
+  boardSize: number = gameboard.length,
+  round: number
+): [game: GameState, winner: Player | null] => {
+  if (!lastPlay.player) return [gameState, null];
+  if (gameState !== "play") return [gameState, null];
+
+  let won = false;
+  const { x, y } = lastPlay.position;
+  const player = lastPlay.player;
+
+  const sX = x - (winLineLength - 1);
+  const eX = x + (winLineLength - 1);
+  const sY = y - (winLineLength - 1);
+  const eY = y + (winLineLength - 1);
+
+  //vertical
+  let streak = 0;
+  for (let i = sY; i <= eY; i++) {
+    if (i < 0 || i >= boardSize) continue;
+
+    if (gameboard[i][x] === player) streak++;
+    else streak = 0;
+    if (streak >= winLineLength) won = true;
+  }
+
+  //horizontal
+  streak = 0;
+  for (let i = sX; i <= eX; i++) {
+    if (i < 0 || i >= boardSize) continue;
+
+    if (gameboard[y][i] === player) streak++;
+    else streak = 0;
+    if (streak >= winLineLength) won = true;
+  }
+
+  //diagonal
+  streak = 0;
+  for (let i = sX, j = sY; i <= eX && j <= eY; i++, j++) {
+    if (i < 0 || i >= boardSize) continue;
+    if (j < 0 || j >= boardSize) continue;
+
+    if (gameboard[j][i] === player) streak++;
+    else streak = 0;
+    if (streak >= winLineLength) won = true;
+  }
+
+  //anti-diagonal
+  streak = 0;
+  for (let i = eX, j = sY; i >= sX && j <= eY; i--, j++) {
+    if (i < 0 || i >= boardSize) continue;
+    if (j < 0 || j >= boardSize) continue;
+
+    if (gameboard[j][i] === player) streak++;
+    else streak = 0;
+    if (streak >= winLineLength) won = true;
+  }
+
+  if (won) return ["won", player];
+
+  if (round === boardSize ** 2) return ["draw", null];
+  else return ["play", null];
+};
 //#endregion
