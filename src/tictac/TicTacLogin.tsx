@@ -3,14 +3,14 @@ import { GameState, LastPlay, POSITION, Player } from "./Types";
 export const generateEmptyBoard = (
   boardSize: number,
   emptyPosition: POSITION
-): number[][] => {
+): POSITION[][] => {
   return Array.from({ length: boardSize }, () =>
     Array.from({ length: boardSize }, () => emptyPosition)
   );
 };
 
 export const checkWinConditions = (
-  gameboard: number[][],
+  gameboard: POSITION[][],
   lastPlay: LastPlay,
   gameState: GameState,
   winLineLength: number,

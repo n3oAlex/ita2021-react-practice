@@ -91,11 +91,11 @@ const firstPlay = {
 
 export function TicTac() {
   const [boardSize, setBoardSize] = useState(10);
-  const [gameboard, setGameboard] = useState<number[][]>(
+  const [gameboard, setGameboard] = useState<POSITION[][]>(
     generateEmptyBoard(boardSize, POSITION.Empty)
   );
   // current player
-  const [cPlayer, setCPlayer] = useState<Player>(1);
+  const [cPlayer, setCPlayer] = useState<Player>(POSITION.Player_1);
   const [winner, setWinner] = useState<Player | null>(null);
   // game state
   const [game, setGame] = useState<GameState>("play");
@@ -116,7 +116,9 @@ export function TicTac() {
       setLastPlay({ position: { x: x, y: y }, player: cPlayer });
       return copy;
     });
-    setCPlayer((p) => (p === 1 ? 2 : 1));
+    setCPlayer((p) =>
+      p === POSITION.Player_1 ? POSITION.Player_2 : POSITION.Player_1
+    );
   };
 
   // reset game on BoardSize change
@@ -141,7 +143,7 @@ export function TicTac() {
     if (newState === "reset") {
       setGameboard(generateEmptyBoard(boardSize, POSITION.Empty));
       setWinner(null);
-      setCPlayer(1);
+      setCPlayer(POSITION.Player_1);
       setRound(0);
       setLastPlay(firstPlay);
       setGameState("play");
@@ -153,7 +155,7 @@ export function TicTac() {
       case "won":
         return (
           <>
-            <span>Player {winner} has won!! 🔥🔥🔥</span>
+            <span>{winner} has won!! 🔥🔥🔥</span>
             <Reset />
           </>
         );
@@ -168,12 +170,12 @@ export function TicTac() {
       case "reset":
         return (
           <>
-            {cPlayer === 1 ? (
+            {cPlayer === POSITION.Player_1 ? (
               <CrossIcon />
-            ) : cPlayer === 2 ? (
+            ) : cPlayer === POSITION.Player_2 ? (
               <CircleIcon />
             ) : null}
-            <span>Player{cPlayer}&apos;s turn</span>
+            <span>{cPlayer}&apos;s turn</span>
           </>
         );
       default:

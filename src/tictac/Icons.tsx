@@ -1,3 +1,5 @@
+import { POSITION, Player } from "./Types";
+
 export const ResetIcon = () => (
   <svg fill="#114068" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
     <path
@@ -28,9 +30,9 @@ export const MinusIcon = () => (
   </svg>
 );
 
-export const CrossIcon = ({ winner }: { winner?: number | null }) => (
+export const CrossIcon = ({ winner }: { winner?: Player | null }) => (
   <svg
-    fill={winner === 1 ? "green" : "#114068"}
+    fill={winner === POSITION.Player_1 ? "green" : "#114068"}
     viewBox="0 0 20 20"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -42,10 +44,10 @@ export const CrossIcon = ({ winner }: { winner?: number | null }) => (
   </svg>
 );
 
-export const CircleIcon = ({ winner }: { winner?: number | null }) => (
+export const CircleIcon = ({ winner }: { winner?: Player | null }) => (
   <svg
     viewBox="0 0 20 20"
-    fill={winner === 2 ? "green" : "#114068"}
+    fill={winner === POSITION.Player_2 ? "green" : "#114068"}
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
