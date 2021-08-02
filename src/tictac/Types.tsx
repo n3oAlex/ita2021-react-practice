@@ -4,3 +4,8 @@ export type LastPlay = {
   position: { x: number; y: number };
   player: Player | null;
 };
+export enum POSITION {
+  Empty,
+  Player_1,
+  Player_2,
+}

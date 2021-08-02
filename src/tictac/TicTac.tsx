@@ -1,5 +1,5 @@
 import { CircleIcon, CrossIcon, MinusIcon, PlusIcon, ResetIcon } from "./Icons";
-import { GameState, LastPlay, Player } from "./Types";
+import { GameState, LastPlay, POSITION, Player } from "./Types";
 import { checkWinConditions, generateEmptyBoard } from "./TicTacLogin";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -92,7 +92,7 @@ const firstPlay = {
 export function TicTac() {
   const [boardSize, setBoardSize] = useState(10);
   const [gameboard, setGameboard] = useState<number[][]>(
-    generateEmptyBoard(boardSize)
+    generateEmptyBoard(boardSize, POSITION.Empty)
   );
   // current player
   const [cPlayer, setCPlayer] = useState<Player>(1);
@@ -103,11 +103,7 @@ export function TicTac() {
   const [lastPlay, setLastPlay] = useState<LastPlay>(firstPlay);
 
   const move = (x: number, y: number) => {
-    // check if position is full
-    // 0 = " "
-    // 1 = "❌"
-    // 2 = "⭕"
-    if (gameboard[y][x] !== 0) return;
+    if (gameboard[y][x] !== POSITION.Empty) return;
     if (game !== "play") return;
 
     setRound((p) => p + 1);
@@ -143,7 +139,7 @@ export function TicTac() {
 
   const setGameState = (newState: GameState) => {
     if (newState === "reset") {
-      setGameboard(generateEmptyBoard(boardSize));
+      setGameboard(generateEmptyBoard(boardSize, POSITION.Empty));
       setWinner(null);
       setCPlayer(1);
       setRound(0);
@@ -227,9 +223,9 @@ export function TicTac() {
                 key={y.toString() + x.toString()}
                 onClick={() => move(x, y)}
               >
-                {column === 1 ? (
+                {column === POSITION.Player_1 ? (
                   <CrossIcon winner={winner} />
-                ) : column === 2 ? (
+                ) : column === POSITION.Player_2 ? (
                   <CircleIcon winner={winner} />
                 ) : null}
               </DivPosition>

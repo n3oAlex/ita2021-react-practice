@@ -1,8 +1,11 @@
-import { GameState, LastPlay, Player } from "./Types";
+import { GameState, LastPlay, POSITION, Player } from "./Types";
 
-export const generateEmptyBoard = (boardSize: number): number[][] => {
+export const generateEmptyBoard = (
+  boardSize: number,
+  emptyPosition: POSITION
+): number[][] => {
   return Array.from({ length: boardSize }, () =>
-    Array.from({ length: boardSize }, () => 0)
+    Array.from({ length: boardSize }, () => emptyPosition)
   );
 };
 
