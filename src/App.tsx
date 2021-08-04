@@ -1,4 +1,5 @@
 import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import { Pexeso } from "./pexeso/Pexeso";
 import { TicTac } from "./tictac/TicTac";
 import Clicker from "./click/Clicker";
 import Counter from "./click/Counter";
@@ -44,6 +45,8 @@ function App() {
           <LinkStyled to="/hack">/hack</LinkStyled>
 
           <LinkStyled to="/tictac">/tictac</LinkStyled>
+
+          <LinkStyled to="/tictac">/pexeso</LinkStyled>
         </NavStyled>
 
         <DivMain>
@@ -63,6 +66,9 @@ function App() {
             </Route>
             <Route exact path="/tictac">
               <TicTac />
+            </Route>
+            <Route exact path="/pexeso">
+              <Pexeso />
             </Route>
           </Switch>
         </DivMain>
