@@ -1,7 +1,7 @@
 import { GameCard } from "./Types";
 import { PexesoCard } from "./PexesoCard";
 import { PexesoStats } from "./PexesoStats";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 const cards = [
@@ -27,14 +27,14 @@ const cards = [
 
 const randomID = () => Math.random().toString(36).substr(2, 9);
 const nOfCards = cards.length * 2;
-const shuffleArray = (arr: any[]) => {
+const shuffleArray = <T,>(arr: T[]): T[] => {
   const kek = () => 0.5 - Math.random();
   return arr.sort(kek).sort(kek);
 };
 
 const generateDeck = () =>
-  shuffleArray(
-    cards.reduce((total: GameCard[], current) => {
+  shuffleArray<GameCard>(
+    cards.reduce((total, current) => {
       total.push({
         id: randomID(),
         value: current,
@@ -48,7 +48,7 @@ const generateDeck = () =>
         cleared: false,
       });
       return total;
-    }, [])
+    }, [] as GameCard[])
   );
 
 //#region StyCo
@@ -62,54 +62,53 @@ const DivPexesoBoard = styled.div`
 export const Pexeso = () => {
   const [cards, setCards] = useState<GameCard[]>(generateDeck());
   const [nOfSelected, setNOfSelected] = useState(0);
-  const [nOfCleared, setNOfCleared] = useState(0);
   const [moves, setMoves] = useState(0);
   const [rounds, setRounds] = useState(0);
 
-  useEffect(() => {
-    if (nOfCleared >= nOfCards) {
-      setRounds((p) => p + 1);
-      setTimeout(() => resetGame(), 1000);
-    }
-  }, [nOfCleared]);
-
-  useEffect(() => {
-    if (nOfSelected >= 2) {
-      const selected = cards.filter((c) => c.selected);
-      if (selected[0].value === selected[1].value) clearCard(selected[0].value);
-      setMoves((p) => p + 1);
-      setTimeout(() => deSelectAll(), 500);
-    }
-  }, [nOfSelected]);
-
   const selectCard = (id: string) => {
+    // prevent clicking more than two card
     if (nOfSelected >= 2) return;
     setCards((p) => {
-      return p.map((c) => {
+      const copy = p.map((c) => {
         if (c.id === id) {
           return { ...c, selected: true };
         }
         return c;
       });
+
+      const selected = copy.filter((c) => c.selected);
+      if (selected.length >= 2) {
+        // found match ? clear it :
+        if (selected[0].value === selected[1].value)
+          clearCard(selected[0].value);
+        setMoves((p) => p + 1);
+        setTimeout(() => deSelectAll(), 500);
+      }
+
+      return copy;
     });
     setNOfSelected((p) => p + 1);
   };
 
   const clearCard = (value: string) => {
     setCards((p) => {
-      return p.map((c) => {
+      const copy = p.map((c) => {
         if (c.value === value) {
           return { ...c, cleared: true };
         }
         return c;
       });
+      // all cleared ? reset :
+      if (copy.filter((c) => !c.cleared).length <= 0) {
+        setRounds((p) => p + 1);
+        setTimeout(() => resetGame(), 1000);
+      }
+      return copy;
     });
-    setNOfCleared((p) => p + 2);
   };
 
   const resetGame = () => {
     setCards(generateDeck());
-    setNOfCleared(0);
     setNOfSelected(0);
     setMoves(0);
   };

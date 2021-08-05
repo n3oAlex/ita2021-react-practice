@@ -7,9 +7,7 @@ const DivPexesoCard = styled.div`
   height: 7vh;
   width: 7vh;
   text-align: center;
-  :hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
 `;
 
 export const PexesoCard = ({
