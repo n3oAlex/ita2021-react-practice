@@ -10,20 +10,17 @@ const DivPexesoCard = styled.div`
   cursor: pointer;
 `;
 
-export const PexesoCard = ({
-  card,
-  selectCard,
-}: {
+export const PexesoCard = (props: {
   card: GameCard;
   selectCard: (id: string) => void;
 }) => {
   return (
     <DivPexesoCard
       onClick={() => {
-        selectCard(card.id);
+        props.selectCard(props.card.id);
       }}
     >
-      {card.selected || card.cleared ? card.value : "❓"}
+      {props.card.selected || props.card.cleared ? props.card.value : "❓"}
     </DivPexesoCard>
   );
 };

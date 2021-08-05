@@ -33,7 +33,7 @@ const shuffleArray = <T,>(arr: T[]): T[] => {
 };
 
 const generateDeck = () =>
-  shuffleArray<GameCard>(
+  shuffleArray(
     cards.reduce((total, current) => {
       total.push({
         id: randomID(),
@@ -98,8 +98,8 @@ export const Pexeso = () => {
         }
         return c;
       });
-      // all cleared ? reset :
-      if (copy.filter((c) => !c.cleared).length <= 0) {
+      const isAllCleared = copy.filter((c) => !c.cleared).length <= 0;
+      if (isAllCleared) {
         setRounds((p) => p + 1);
         setTimeout(() => resetGame(), 1000);
       }
