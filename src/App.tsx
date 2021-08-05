@@ -46,7 +46,7 @@ function App() {
 
           <LinkStyled to="/tictac">/tictac</LinkStyled>
 
-          <LinkStyled to="/tictac">/pexeso</LinkStyled>
+          <LinkStyled to="/pexeso">/pexeso</LinkStyled>
         </NavStyled>
 
         <DivMain>
