@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import { createGlobalStyle } from "styled-components";
 import App from "./App";
 import React from "react";
@@ -68,6 +69,9 @@ const GlobalStyle = createGlobalStyle`
 
 ReactDOM.render(
   <React.StrictMode>
+    <Helmet>
+      <title>ITA 2021 - Alexandr Hanák</title>
+    </Helmet>
     <GlobalStyle />
     <App />
   </React.StrictMode>,

@@ -14,10 +14,13 @@ const DivErrorInfo = styled.div`
 
 const Label = styled.label`
   margin-top: 2rem;
+  font-size: 1.4rem;
 `;
 
 const ButtonAddPost = styled.button`
-  ${theme.BasicInput}
+  background: ${theme.BasicBg};
+  border: ${theme.BorderBasic};
+  border-radius: ${theme.BorderRadius};
   height: 3rem;
   width: 10rem;
   margin-top: 2rem;
@@ -26,7 +29,9 @@ const ButtonAddPost = styled.button`
 `;
 
 const TextareaContent = styled.textarea`
-  ${theme.BasicInput}
+  background: ${theme.BasicBg};
+  border: ${theme.BorderBasic};
+  border-radius: ${theme.BorderRadius};
   padding: 1rem;
   min-height: 20rem;
   max-width: 57.5vw;
@@ -34,18 +39,13 @@ const TextareaContent = styled.textarea`
   font-size: 1.2rem;
 `;
 
-const InputAuthor = styled.input`
-  ${theme.BasicInput}
+const InputText = styled.input`
+  background: ${theme.BasicBg};
+  border: ${theme.BorderBasic};
+  border-radius: ${theme.BorderRadius};
   padding: 0.5rem 1rem;
   height: 3rem;
   font-size: 1.3rem;
-`;
-
-const InputTitle = styled.input`
-  ${theme.BasicInput}
-  padding: 0.5rem 1rem;
-  font-size: 1.3rem;
-  height: 3rem;
 `;
 
 const DivNewPost = styled.div`
@@ -87,15 +87,15 @@ export const NewPost = () => {
   return (
     <DivNewPost>
       <DivErrorInfo>{error}</DivErrorInfo>
-      <Label htmlFor="title">Title:</Label>
-      <InputTitle
+      <Label htmlFor="title">Title</Label>
+      <InputText
         id="title"
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
-      <Label htmlFor="title">Author:</Label>
-      <InputAuthor
+      <Label htmlFor="title">Author</Label>
+      <InputText
         type="text"
         value={author}
         onChange={(e) => setAuthor(e.target.value)}

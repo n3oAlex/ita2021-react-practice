@@ -1,4 +1,5 @@
 import { BlogProvider } from "./BlogContext";
+import { Helmet } from "react-helmet";
 import {
   Link,
   Redirect,
@@ -35,6 +36,9 @@ export const CMS = () => {
   return (
     <BlogProvider>
       <Router basename="/cms">
+        <Helmet>
+          <title>CMS - ITA 2021</title>
+        </Helmet>
         <NavCmsLinks>
           <LinkStyled to="/">Posts</LinkStyled>
           <LinkStyled to="/new-post">+New Post</LinkStyled>
