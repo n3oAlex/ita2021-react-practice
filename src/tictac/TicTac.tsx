@@ -29,7 +29,6 @@ const DivGameStatus = styled.div`
   align-items: center;
   font-size: 2.5rem;
   font-weight: bold;
-  filter: brightness(1.5);
   > svg {
     width: 3rem;
     height: 3rem;
@@ -59,7 +58,7 @@ const DivPosition = styled.div`
   padding: 0;
   font-weight: bold;
   font-size: 26px;
-  background: #010f1b;
+  background: #011627;
   display: flex;
   justify-content: center;
   align-items: center;

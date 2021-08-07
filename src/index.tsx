@@ -1,52 +1,69 @@
-import "./index.css";
 import { createGlobalStyle } from "styled-components";
 import App from "./App";
 import React from "react";
 import ReactDOM from "react-dom";
 
 const GlobalStyle = createGlobalStyle`
-body {
-  filter: brightness(1.5);
-}
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #011627;
+    color: #19609c;
+  }
 
-::-webkit-scrollbar {
-  width: 10px;
-}
+  a,
+  button,
+  input,
+  textarea {
+    color: #19609c;
+    border-color: #19609c;
+  }
 
-::-webkit-scrollbar-track {
-  background: rgba(17, 64, 104, 0.2);
-}
+  hr {
+    border-color: #19609c;
+  }
 
-::-webkit-scrollbar-thumb {
-  background: #114068;
-  border-radius: 10px;
-}
+  button:hover {
+    opacity: 0.8;
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #563c7e;
-}
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
 
-input:focus-visible {
-  outline: none;
-}
+  ::-webkit-scrollbar-track {
+    background: rgba(17, 64, 104, 0.2);
+  }
 
-textarea:focus-visible {
-  outline: none;
-}
+  ::-webkit-scrollbar-thumb {
+    background: #114068;
+    border-radius: 10px;
+  }
 
-input:focus {
-  border: 2px solid #1a639f !important;
-}
+  ::-webkit-scrollbar-thumb:hover {
+    background: #563c7e;
+  }
 
-textarea::-webkit-resizer {
-  border-width: 3px;
-  border-color: transparent;
-}
+  input:focus-visible {
+    outline: none;
+  }
 
-::-webkit-scrollbar-corner {
-  background: transparent;
-}
+  textarea:focus-visible {
+    outline: none;
+  }
 
+  input:focus {
+    border: 2px solid #1a639f !important;
+  }
+
+  textarea::-webkit-resizer {
+    border-width: 3px;
+    border-color: transparent;
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
 `;
 
 ReactDOM.render(
