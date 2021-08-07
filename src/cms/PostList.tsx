@@ -1,4 +1,4 @@
-import { BlogContext } from "../contexts/BlogContext";
+import { BlogContext } from "./BlogContext";
 import { PostMini } from "./PostMini";
 import { useContext } from "react";
 

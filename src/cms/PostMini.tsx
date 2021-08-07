@@ -1,4 +1,5 @@
-import { PostType } from "./Types";
+import { PostType } from "./BlogContext";
+import { theme } from "./theme";
 import styled from "styled-components";
 
 const DivInfo = styled.div`
@@ -12,8 +13,8 @@ const DivCard = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 5rem;
-  border: 2px solid;
-  border-radius: 1rem;
+  border: ${theme.BorderBasic};
+  border-radius: ${theme.BorderRadius};
   margin: 2rem 0;
   width: 60vw;
   padding: 0.5rem 1rem 0.5rem 2rem;

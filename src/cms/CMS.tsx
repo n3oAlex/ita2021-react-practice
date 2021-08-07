@@ -1,4 +1,4 @@
-import { BlogProvider } from "../contexts/BlogContext";
+import { BlogProvider } from "./BlogContext";
 import {
   Link,
   Redirect,
@@ -9,6 +9,7 @@ import {
 import { NewPost } from "./NewPost";
 import { PostList } from "./PostList";
 import { PostPage } from "./PostPage";
+import { theme } from "./theme";
 import styled from "styled-components";
 
 const LinkStyled = styled(Link)`
@@ -27,7 +28,7 @@ const NavCmsLinks = styled.nav`
   align-items: center;
   width: 50%;
   height: 3rem;
-  border-bottom: 1px solid;
+  border-bottom: ${theme.BorderBasic};
 `;
 
 export const CMS = () => {

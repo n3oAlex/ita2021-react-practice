@@ -1,5 +1,5 @@
-import { BlogContext } from "../contexts/BlogContext";
-import { PostType } from "./Types";
+import { BlogContext, PostType } from "./BlogContext";
+import { theme } from "./theme";
 import { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import marked from "marked";
@@ -7,7 +7,7 @@ import styled from "styled-components";
 
 const ButtonRemove = styled.button`
   font-size: 1.2rem;
-  border: 2px solid;
+  border: ${theme.BorderBasic};
   background: transparent;
   opacity: 0.5;
   margin-top: 0.8rem;

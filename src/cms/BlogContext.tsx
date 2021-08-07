@@ -1,6 +1,13 @@
-import { PostType } from "../cms/Types";
 import { ReactNode, createContext } from "react";
-import { usePostsStorage } from "../hooks/usePostsStorage";
+import { usePostsStorage } from "./usePostsStorage";
+
+export type PostType = {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: number;
+  author: string;
+};
 
 type ContextProps = {
   posts: PostType[];

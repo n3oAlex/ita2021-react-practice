@@ -1,4 +1,4 @@
-import { BlogContext } from "../contexts/BlogContext";
+import { BlogContext } from "./BlogContext";
 import { Post } from "./Post";
 import { useContext } from "react";
 import { useParams } from "react-router-dom";

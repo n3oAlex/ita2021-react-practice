@@ -1,4 +1,5 @@
-import { BlogContext } from "../contexts/BlogContext";
+import { BlogContext } from "./BlogContext";
+import { theme } from "./theme";
 import { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import DOMPurify from "dompurify";
@@ -7,7 +8,7 @@ import styled from "styled-components";
 const DivErrorInfo = styled.div`
   font-size: 1.1rem;
   align-self: center;
-  color: red;
+  color: ${theme.ErrorColor};
   padding: 1rem 0;
 `;
 
@@ -16,41 +17,34 @@ const Label = styled.label`
 `;
 
 const ButtonAddPost = styled.button`
-  background: transparent;
-  border: 2px solid;
+  ${theme.BasicInput}
   height: 3rem;
   width: 10rem;
-  border-radius: 0.5rem;
   margin-top: 2rem;
   align-self: flex-end;
   cursor: pointer;
 `;
 
 const TextareaContent = styled.textarea`
+  ${theme.BasicInput}
   padding: 1rem;
   min-height: 20rem;
-  background: transparent;
-  border: 2px solid;
-  border-radius: 0.5rem;
+  max-width: 57.5vw;
   margin-top: 2rem;
   font-size: 1.2rem;
 `;
 
 const InputAuthor = styled.input`
-  background: transparent;
+  ${theme.BasicInput}
   padding: 0.5rem 1rem;
-  border: 2px solid;
-  border-radius: 0.5rem;
   height: 3rem;
   font-size: 1.3rem;
 `;
 
 const InputTitle = styled.input`
+  ${theme.BasicInput}
   padding: 0.5rem 1rem;
   font-size: 1.3rem;
-  background: transparent;
-  border: 2px solid;
-  border-radius: 0.5rem;
   height: 3rem;
 `;
 
