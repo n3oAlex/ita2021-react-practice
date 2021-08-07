@@ -1,7 +1,7 @@
 export const theme = {
-  ErrorColor: "red",
-  TextPrimary: "#19609c",
-  BorderBasic: "2px solid",
-  BorderRadius: "1rem",
-  BasicBg: "transparent",
+  errorColor: "red",
+  textPrimary: "#19609c",
+  borderBasic: "2px solid",
+  borderRadius: "1rem",
+  basicBg: "transparent",
 };

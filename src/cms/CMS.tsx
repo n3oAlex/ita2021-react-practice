@@ -29,7 +29,7 @@ const NavCmsLinks = styled.nav`
   align-items: center;
   width: 50%;
   height: 3rem;
-  border-bottom: ${theme.BorderBasic};
+  border-bottom: ${theme.borderBasic};
 `;
 
 export const CMS = () => {

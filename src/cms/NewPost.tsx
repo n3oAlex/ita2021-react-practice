@@ -8,7 +8,7 @@ import styled from "styled-components";
 const DivErrorInfo = styled.div`
   font-size: 1.1rem;
   align-self: center;
-  color: ${theme.ErrorColor};
+  color: ${theme.errorColor};
   padding: 1rem 0;
 `;
 
@@ -18,9 +18,9 @@ const Label = styled.label`
 `;
 
 const ButtonAddPost = styled.button`
-  background: ${theme.BasicBg};
-  border: ${theme.BorderBasic};
-  border-radius: ${theme.BorderRadius};
+  background: ${theme.basicBg};
+  border: ${theme.borderBasic};
+  border-radius: ${theme.borderRadius};
   height: 3rem;
   width: 10rem;
   margin-top: 2rem;
@@ -29,9 +29,9 @@ const ButtonAddPost = styled.button`
 `;
 
 const TextareaContent = styled.textarea`
-  background: ${theme.BasicBg};
-  border: ${theme.BorderBasic};
-  border-radius: ${theme.BorderRadius};
+  background: ${theme.basicBg};
+  border: ${theme.borderBasic};
+  border-radius: ${theme.borderRadius};
   padding: 1rem;
   min-height: 20rem;
   max-width: 57.5vw;
@@ -40,9 +40,9 @@ const TextareaContent = styled.textarea`
 `;
 
 const InputText = styled.input`
-  background: ${theme.BasicBg};
-  border: ${theme.BorderBasic};
-  border-radius: ${theme.BorderRadius};
+  background: ${theme.basicBg};
+  border: ${theme.borderBasic};
+  border-radius: ${theme.borderRadius};
   padding: 0.5rem 1rem;
   height: 3rem;
   font-size: 1.3rem;

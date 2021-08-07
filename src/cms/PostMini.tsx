@@ -13,8 +13,8 @@ const DivCard = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 5rem;
-  border: ${theme.BorderBasic};
-  border-radius: ${theme.BorderRadius};
+  border: ${theme.borderBasic};
+  border-radius: ${theme.borderRadius};
   margin: 2rem 0;
   width: 60vw;
   padding: 0.5rem 1rem 0.5rem 2rem;

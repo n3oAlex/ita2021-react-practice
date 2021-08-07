@@ -7,7 +7,7 @@ import styled from "styled-components";
 
 const ButtonRemove = styled.button`
   font-size: 1.2rem;
-  border: ${theme.BorderBasic};
+  border: ${theme.borderBasic};
   background: transparent;
   opacity: 0.5;
   margin-top: 0.8rem;
