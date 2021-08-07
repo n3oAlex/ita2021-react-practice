@@ -10,8 +10,8 @@ const ButtonReset = styled.button`
   align-self: center;
   transition: 300ms linear;
   margin-inline: 1rem;
+  cursor: pointer;
   :hover {
-    cursor: pointer;
     transform: rotate(-180deg);
   }
   :active {
@@ -20,12 +20,8 @@ const ButtonReset = styled.button`
   }
 `;
 
-export const Reset = ({ reset }: { reset: () => void }) => (
-  <ButtonReset
-    onClick={() => {
-      reset();
-    }}
-  >
+export const Reset = (props: { reset: () => void }) => (
+  <ButtonReset onClick={props.reset}>
     <ResetIcon />
   </ButtonReset>
 );

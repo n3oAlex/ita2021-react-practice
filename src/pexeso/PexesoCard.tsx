@@ -7,25 +7,20 @@ const DivPexesoCard = styled.div`
   height: 7vh;
   width: 7vh;
   text-align: center;
-  :hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
 `;
 
-export const PexesoCard = ({
-  card,
-  selectCard,
-}: {
+export const PexesoCard = (props: {
   card: GameCard;
   selectCard: (id: string) => void;
 }) => {
   return (
     <DivPexesoCard
       onClick={() => {
-        selectCard(card.id);
+        props.selectCard(props.card.id);
       }}
     >
-      {card.selected || card.cleared ? card.value : "❓"}
+      {props.card.selected || props.card.cleared ? props.card.value : "❓"}
     </DivPexesoCard>
   );
 };
