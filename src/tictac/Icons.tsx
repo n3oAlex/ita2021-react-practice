@@ -1,7 +1,9 @@
 import { POSITION, Player } from "./Types";
 
+const iconsFill = "#19609C";
+
 export const ResetIcon = () => (
-  <svg fill="#114068" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+  <svg fill={iconsFill} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
     <path
       fillRule="evenodd"
       clipRule="evenodd"
@@ -11,7 +13,7 @@ export const ResetIcon = () => (
 );
 
 export const PlusIcon = () => (
-  <svg fill="#114068" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+  <svg fill={iconsFill} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
     <path
       fillRule="evenodd"
       clipRule="evenodd"
@@ -21,7 +23,7 @@ export const PlusIcon = () => (
 );
 
 export const MinusIcon = () => (
-  <svg fill="#114068" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+  <svg fill={iconsFill} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
     <path
       fillRule="evenodd"
       clipRule="evenodd"
@@ -32,7 +34,7 @@ export const MinusIcon = () => (
 
 export const CrossIcon = ({ winner }: { winner?: Player | null }) => (
   <svg
-    fill={winner === POSITION.Player_1 ? "green" : "#114068"}
+    fill={winner === POSITION.Player_1 ? "green" : iconsFill}
     viewBox="0 0 20 20"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -47,7 +49,7 @@ export const CrossIcon = ({ winner }: { winner?: Player | null }) => (
 export const CircleIcon = ({ winner }: { winner?: Player | null }) => (
   <svg
     viewBox="0 0 20 20"
-    fill={winner === POSITION.Player_2 ? "green" : "#114068"}
+    fill={winner === POSITION.Player_2 ? "green" : iconsFill}
     xmlns="http://www.w3.org/2000/svg"
   >
     <path

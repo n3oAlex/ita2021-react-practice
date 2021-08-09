@@ -1,4 +1,10 @@
-import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import { CMS } from "./cms/CMS";
+import {
+  NavLink,
+  Route,
+  BrowserRouter as Router,
+  Switch,
+} from "react-router-dom";
 import { Pexeso } from "./pexeso/Pexeso";
 import { TicTac } from "./tictac/TicTac";
 import Clicker from "./click/Clicker";
@@ -12,7 +18,7 @@ const DivMain = styled.div`
   flex-direction: column;
   justify-content: space-around;
   width: 100%;
-  padding-top: 50px;
+  padding-top: 2rem;
   align-items: center;
   font-family: "Calibri";
 `;
@@ -23,12 +29,21 @@ const NavStyled = styled.nav`
   justify-content: space-evenly;
 `;
 
-const LinkStyled = styled(Link)`
+const LinkStyled = styled(NavLink)`
   font-weight: bold;
   font-family: "Calibri";
-  color: #114068;
   text-decoration: none;
   font-size: 20px;
+  :hover {
+    opacity: 0.8;
+  }
+`;
+
+const LinkProject = styled(LinkStyled)`
+  &.active {
+    filter: brightness(1.3);
+    text-decoration: underline;
+  }
 `;
 
 function App() {
@@ -38,15 +53,17 @@ function App() {
         <NavStyled>
           <LinkStyled to="/">Home</LinkStyled>
 
-          <LinkStyled to="/click">/click</LinkStyled>
+          <LinkProject to="/click">/click</LinkProject>
 
-          <LinkStyled to="/todo">/todo</LinkStyled>
+          <LinkProject to="/todo">/todo</LinkProject>
 
-          <LinkStyled to="/hack">/hack</LinkStyled>
+          <LinkProject to="/hack">/hack</LinkProject>
 
-          <LinkStyled to="/tictac">/tictac</LinkStyled>
+          <LinkProject to="/tictac">/tictac</LinkProject>
 
-          <LinkStyled to="/pexeso">/pexeso</LinkStyled>
+          <LinkProject to="/pexeso">/pexeso</LinkProject>
+
+          <LinkProject to="/cms">/cms</LinkProject>
         </NavStyled>
 
         <DivMain>
@@ -69,6 +86,9 @@ function App() {
             </Route>
             <Route exact path="/pexeso">
               <Pexeso />
+            </Route>
+            <Route path="/cms">
+              <CMS />
             </Route>
           </Switch>
         </DivMain>
