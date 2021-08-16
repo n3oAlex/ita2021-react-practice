@@ -7,6 +7,7 @@ import {
   Switch,
 } from "react-router-dom";
 import { Pexeso } from "./pexeso/Pexeso";
+import { ReduxCounter } from "./redux/ReduxCounter";
 import { TicTac } from "./tictac/TicTac";
 import Clicker from "./click/Clicker";
 import Counter from "./click/Counter";
@@ -67,6 +68,8 @@ function App() {
           <LinkProject to="/cms">/cms</LinkProject>
 
           <LinkProject to="/chuck">/chuck</LinkProject>
+
+          <LinkProject to="/redux">/redux</LinkProject>
         </NavStyled>
 
         <DivMain>
@@ -95,6 +98,9 @@ function App() {
             </Route>
             <Route path="/chuck">
               <Chuck />
+            </Route>
+            <Route path="/redux">
+              <ReduxCounter />
             </Route>
           </Switch>
         </DivMain>
