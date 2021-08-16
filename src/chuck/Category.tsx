@@ -6,8 +6,8 @@ export const Category = (props: CategoryProps) => {
   return (
     <div>
       {props.jokes ? (
-        props.jokes.map((joke, i) => {
-          return <JokeCard key={i} joke={joke} />;
+        props.jokes.map((joke) => {
+          return <JokeCard key={joke.id} joke={joke} />;
         })
       ) : (
         <span>Loading...</span>

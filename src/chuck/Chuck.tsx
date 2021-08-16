@@ -49,13 +49,13 @@ export const Chuck = () => {
 };
 
 const ChuckRoute = () => {
-  const { categories, error } = useContext(ChuckContext);
+  const { categories, errors } = useContext(ChuckContext);
   return (
     <Router basename="/chuck">
       <DivLinks>
-        {categories?.map((c, i) => {
+        {categories?.map((c) => {
           return (
-            <NavLinkCategory exact key={i} to={"/" + c}>
+            <NavLinkCategory exact key={c} to={"/" + c}>
               {c}
             </NavLinkCategory>
           );
@@ -68,11 +68,9 @@ const ChuckRoute = () => {
         <Redirect to="/random" />
       </Route>
       <DivErrorBox>
-        {error.length > 0
-          ? error.map((e, i) => {
-              return <DivError key={i}>{e}</DivError>;
-            })
-          : null}
+        {errors?.map((e, i) => (
+          <DivError key={i}>{e}</DivError>
+        ))}
       </DivErrorBox>
     </Router>
   );

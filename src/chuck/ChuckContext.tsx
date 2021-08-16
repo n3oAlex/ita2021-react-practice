@@ -1,19 +1,17 @@
 import { Joke, JokesDic } from "./Types";
 import { ReactNode, createContext, useEffect, useState } from "react";
+import { URL_CATEGORIES, URL_RANDOM, getCategoryUrl } from "./chuckApiUrls";
+import { uniqueArrayElementById } from "./arrayUtils";
 
-const URL_CATEGORIES = "https://api.chucknorris.io/jokes/categories";
-const URL_RANDOM = "https://api.chucknorris.io/jokes/random";
-const URL_CATEGORY = "https://api.chucknorris.io/jokes/random?category=";
-
-const N_OF_RANDOM_JOKES = 20;
-const MAX_TRIES = 5;
-const N_OF_JOKES = 5;
+const N_OF_RANDOM_JOKES = 20 as const;
+const MAX_TRIES = 5 as const;
+const N_OF_JOKES = 5 as const;
 
 type ContextProps = {
   jokes: JokesDic;
   categories: string[];
   loading: boolean;
-  error: string[];
+  errors: string[];
 };
 export const ChuckContext = createContext<ContextProps>({} as ContextProps);
 
@@ -21,22 +19,28 @@ export const ChuckProvider = (props: { children: ReactNode }) => {
   const [jokes, setJokes] = useState<JokesDic>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string[]>([]);
+  const [errors, setErrors] = useState<string[]>([]);
 
   useEffect(() => {
-    getCategories().then((newCategories) => {
-      const allCategories = ["random", ...newCategories];
-      setCategories(allCategories);
-      allCategories.forEach((cate) => {
-        getJokes(cate);
-      });
-    });
+    const fetchAll = async () => {
+      try {
+        const newCategories = await getCategories();
+        const allCategories = ["random", ...newCategories];
+        setCategories(allCategories);
+        allCategories.forEach((cate) => {
+          getJokes(cate);
+        });
+      } catch (e) {
+        addError("There has been an unexpected error: " + e);
+      }
+    };
+    fetchAll();
   }, []);
 
   const fetchJoke = async (category?: string) => {
     let result = new Promise<Joke | null>(() => null);
-    let url =
-      category && category !== "random" ? URL_CATEGORY + category : URL_RANDOM;
+    const url =
+      category && category !== "random" ? getCategoryUrl(category) : URL_RANDOM;
 
     try {
       setLoading(true);
@@ -53,7 +57,7 @@ export const ChuckProvider = (props: { children: ReactNode }) => {
   };
 
   const getCategories = async () => {
-    let url = URL_CATEGORIES;
+    const url = URL_CATEGORIES;
     let data: string[] = [];
 
     try {
@@ -85,7 +89,7 @@ export const ChuckProvider = (props: { children: ReactNode }) => {
       }
 
       let counter = 0;
-      while (uniqueJoke(newJokes, joke)) {
+      while (uniqueArrayElementById(newJokes, joke)) {
         if (counter >= MAX_TRIES) {
           joke = null;
           break;
@@ -103,18 +107,14 @@ export const ChuckProvider = (props: { children: ReactNode }) => {
   };
 
   const addError = (errorMessage: string) => {
-    setError((p) => [...new Set([...p, errorMessage])]);
-  };
-
-  const uniqueJoke = (jokes: Joke[], joke: Joke | null) => {
-    return joke ? jokes.some((j) => j?.id === joke?.id) : false;
+    setErrors((p) => [...new Set([...p, errorMessage])]);
   };
 
   const values = {
     jokes,
     categories,
     loading,
-    error,
+    errors,
   };
 
   return (

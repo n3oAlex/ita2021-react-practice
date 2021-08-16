@@ -9,6 +9,5 @@ const DivJokeCard = styled.div`
 `;
 
 type JokeCardProps = { joke: Joke };
-export const JokeCard = (props: JokeCardProps) => {
-  return props.joke ? <DivJokeCard>{props.joke.value}</DivJokeCard> : null;
-};
+export const JokeCard = (props: JokeCardProps) =>
+  props.joke && <DivJokeCard>{props.joke.value}</DivJokeCard>;
