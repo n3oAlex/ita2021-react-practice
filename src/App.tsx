@@ -1,4 +1,5 @@
 import { CMS } from "./cms/CMS";
+import { Chuck } from "./chuck/Chuck";
 import {
   NavLink,
   Route,
@@ -64,6 +65,8 @@ function App() {
           <LinkProject to="/pexeso">/pexeso</LinkProject>
 
           <LinkProject to="/cms">/cms</LinkProject>
+
+          <LinkProject to="/chuck">/chuck</LinkProject>
         </NavStyled>
 
         <DivMain>
@@ -89,6 +92,9 @@ function App() {
             </Route>
             <Route path="/cms">
               <CMS />
+            </Route>
+            <Route path="/chuck">
+              <Chuck />
             </Route>
           </Switch>
         </DivMain>
