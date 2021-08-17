@@ -6,6 +6,7 @@ import {
   Route,
   BrowserRouter as Router,
 } from "react-router-dom";
+import { compareElementsByCategoryString } from "./arrayUtils";
 import { useContext } from "react";
 import styled from "styled-components";
 
@@ -14,19 +15,6 @@ const DivLinks = styled.div`
   flex-wrap: wrap;
   width: 90vw;
   justify-content: center;
-`;
-
-const DivError = styled.div`
-  padding: 0.5rem;
-`;
-
-const DivErrorBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  color: red;
-  flex-wrap: wrap;
-  max-height: 15rem;
-  align-content: center;
 `;
 
 const NavLinkCategory = styled(NavLink)`
@@ -49,14 +37,14 @@ export const Chuck = () => {
 };
 
 const ChuckRoute = () => {
-  const { categories, errors } = useContext(ChuckContext);
+  const { jokeCategories } = useContext(ChuckContext);
   return (
     <Router basename="/chuck">
       <DivLinks>
-        {categories?.map((c) => {
+        {jokeCategories?.sort(compareElementsByCategoryString).map((jc) => {
           return (
-            <NavLinkCategory exact key={c} to={"/" + c}>
-              {c}
+            <NavLinkCategory exact key={jc.category} to={"/" + jc.category}>
+              {jc.category}
             </NavLinkCategory>
           );
         })}
@@ -67,11 +55,6 @@ const ChuckRoute = () => {
       <Route>
         <Redirect to="/random" />
       </Route>
-      <DivErrorBox>
-        {errors?.map((e, i) => (
-          <DivError key={i}>{e}</DivError>
-        ))}
-      </DivErrorBox>
     </Router>
   );
 };

@@ -8,50 +8,52 @@ const MAX_TRIES = 5 as const;
 const N_OF_JOKES = 5 as const;
 
 type ContextProps = {
-  jokes: JokesDic;
-  categories: string[];
-  loading: boolean;
-  errors: string[];
+  jokeCategories: JokesDic;
 };
 export const ChuckContext = createContext<ContextProps>({} as ContextProps);
 
 export const ChuckProvider = (props: { children: ReactNode }) => {
-  const [jokes, setJokes] = useState<JokesDic>([]);
-  const [categories, setCategories] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<string[]>([]);
+  const [jokeCategories, setJokeCategories] = useState<JokesDic>([]);
 
   useEffect(() => {
     const fetchAll = async () => {
       try {
         const newCategories = await getCategories();
         const allCategories = ["random", ...newCategories];
-        setCategories(allCategories);
-        allCategories.forEach((cate) => {
-          getJokes(cate);
+        const freshJokeCategories: JokesDic = [
+          ...allCategories.map((c) => ({
+            category: c,
+            jokes: [] as Joke[],
+            loading: true,
+            error: false,
+          })),
+        ] as JokesDic;
+        setJokeCategories(freshJokeCategories);
+        allCategories.forEach((c) => {
+          getJokes(c);
         });
       } catch (e) {
-        addError("There has been an unexpected error: " + e);
+        console.error(e);
       }
     };
     fetchAll();
   }, []);
 
-  const fetchJoke = async (category?: string) => {
+  const fetchJoke = async (category: string) => {
     let result = new Promise<Joke | null>(() => null);
     const url =
       category && category !== "random" ? getCategoryUrl(category) : URL_RANDOM;
 
     try {
-      setLoading(true);
+      setLoading(category, true);
       const response = await fetch(url);
       result = await response.json();
     } catch (e) {
       const errorMessage = "There has been an error while fetching jokes.";
-      addError(errorMessage);
-      console.error(e);
+      console.error(errorMessage);
+      setError(category, true);
     } finally {
-      setLoading(false);
+      setLoading(category, false);
       return result;
     }
   };
@@ -61,16 +63,13 @@ export const ChuckProvider = (props: { children: ReactNode }) => {
     let data: string[] = [];
 
     try {
-      setLoading(true);
       const response = await fetch(url);
       data = await response.json();
-    } catch (e) {
+    } catch {
       const errorMessage =
         "There has been an error while fetching joke categories";
-      addError(errorMessage);
-      console.error(e);
+      console.error(errorMessage);
     } finally {
-      setLoading(false);
       return data;
     }
   };
@@ -80,12 +79,18 @@ export const ChuckProvider = (props: { children: ReactNode }) => {
     const nOfJokes = category === "random" ? N_OF_RANDOM_JOKES : N_OF_JOKES;
 
     for (let i = 0; i < nOfJokes; i++) {
+      setLoading(category, true);
+
       let joke = await fetchJoke(category);
       if (!joke || joke.error) {
         const errorMessage = joke?.message
           ? joke.message
           : "There has been an error while fetching a joke.";
-        addError(errorMessage);
+        console.error(errorMessage);
+        setError(category, true);
+        setLoading(category, false);
+
+        continue;
       }
 
       let counter = 0;
@@ -98,23 +103,46 @@ export const ChuckProvider = (props: { children: ReactNode }) => {
         joke = await fetchJoke(category);
       }
 
-      if (joke) newJokes.push(joke);
-    }
+      if (joke) {
+        newJokes.push(joke);
 
-    setJokes((p) => {
-      return [{ category: category, jokes: newJokes }, ...p];
+        setJokeCategories((p) => {
+          const current = p.find((c) => c.category === category);
+          const rest = p.filter((c) => c.category !== category);
+          const currentJokes = current ? current.jokes : [];
+          return current
+            ? [
+                ...rest,
+                {
+                  ...current,
+                  loading: false,
+                  jokes: joke ? [...currentJokes, joke] : [...currentJokes],
+                },
+              ]
+            : [...p];
+        });
+      }
+    }
+  };
+
+  const setError = (category: string, value: boolean) => {
+    setJokeCategories((p) => {
+      const current = p.find((c) => c.category === category);
+      const rest = p.filter((c) => c.category !== category);
+      return current ? [...rest, { ...current, error: value }] : [...p];
     });
   };
 
-  const addError = (errorMessage: string) => {
-    setErrors((p) => [...new Set([...p, errorMessage])]);
+  const setLoading = (category: string, value: boolean) => {
+    setJokeCategories((p) => {
+      const current = p.find((c) => c.category === category);
+      const rest = p.filter((c) => c.category !== category);
+      return current ? [...rest, { ...current, loading: value }] : [...p];
+    });
   };
 
   const values = {
-    jokes,
-    categories,
-    loading,
-    errors,
+    jokeCategories,
   };
 
   return (

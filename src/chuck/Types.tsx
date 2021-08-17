@@ -15,5 +15,7 @@ export type Joke = {
 
 export type JokesDic = {
   category: string;
+  loading: boolean;
+  error: boolean;
   jokes: Joke[];
 }[];

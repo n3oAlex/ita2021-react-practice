@@ -4,3 +4,8 @@ export const uniqueArrayElementById = <T extends { id: string }>(
 ) => {
   return el ? arr.some((x) => x?.id === el?.id) : false;
 };
+
+export const compareElementsByCategoryString = <T extends { category: string }>(
+  a,
+  b
+) => (a.category < b.category ? -1 : a.category > b.category ? 1 : 0);
