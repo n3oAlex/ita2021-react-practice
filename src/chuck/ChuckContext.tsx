@@ -47,10 +47,14 @@ export const ChuckProvider = (props: { children: ReactNode }) => {
     try {
       setLoading(category, true);
       const response = await fetch(url);
-      if (!response.ok) throw new Error();
+      if (!response.ok)
+        throw new Error(
+          "Request for a joke failed with status: " + response.status
+        );
       result = await response.json();
-    } catch {
-      const errorMessage = "There has been an error while fetching jokes.";
+    } catch (e) {
+      const errorMessage =
+        "There has been an error while fetching jokes.\n" + e;
       console.error(errorMessage);
       setError(category, true);
     } finally {
@@ -65,11 +69,14 @@ export const ChuckProvider = (props: { children: ReactNode }) => {
 
     try {
       const response = await fetch(url);
-      if (!response.ok) throw new Error();
+      if (!response.ok)
+        throw new Error(
+          "Request for categories failed with status: " + response.status
+        );
       data = await response.json();
-    } catch {
+    } catch (e) {
       const errorMessage =
-        "There has been an error while fetching joke categories";
+        "There has been an error while fetching jokes.\n" + e;
       console.error(errorMessage);
     } finally {
       return data;
