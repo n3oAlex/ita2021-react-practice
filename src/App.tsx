@@ -10,7 +10,6 @@ import { Pexeso } from "./pexeso/Pexeso";
 import { ReduxCounter } from "./redux/ReduxCounter";
 import { TicTac } from "./tictac/TicTac";
 import Clicker from "./click/Clicker";
-import Counter from "./click/Counter";
 import HackerTyper from "./hack/HackerTyper";
 import TodoApp from "./todo/TodoApp";
 import styled from "styled-components";
@@ -78,7 +77,6 @@ function App() {
               <h1>Welcome home</h1>
             </Route>
             <Route exact path="/click">
-              <Counter />
               <Clicker />
             </Route>
             <Route path="/todo">
