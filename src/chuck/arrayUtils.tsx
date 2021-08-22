@@ -6,6 +6,6 @@ export const uniqueArrayElementById = <T extends { id: string }>(
 };
 
 export const compareElementsByCategoryString = <T extends { category: string }>(
-  a,
-  b
+  a: T,
+  b: T
 ) => (a.category < b.category ? -1 : a.category > b.category ? 1 : 0);
