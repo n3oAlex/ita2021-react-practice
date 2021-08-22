@@ -1,6 +1,6 @@
 import { CircleIcon, CrossIcon, MinusIcon, PlusIcon, ResetIcon } from "./Icons";
 import { GameState, LastPlay, POSITION, Player } from "./Types";
-import { checkWinConditions, generateEmptyBoard } from "./TicTacLogin";
+import { checkWinConditions, generateEmptyBoard } from "./TicTacLogic";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -41,7 +41,7 @@ const ButtonChangeSize = styled.button`
   border-radius: 2rem;
   padding: 0;
   height: 3em;
-  aspect-ratio: 1 / 1;
+  width: 3em;
   :hover {
     cursor: pointer;
   }
@@ -54,24 +54,32 @@ const DivBoardControl = styled.div`
   align-items: center;
 `;
 
-const DivPosition = styled.div`
+const DivPosition = styled.div<{ boardSize: number }>`
+  color: red;
   padding: 0;
+  & > svg {
+    height: 100%;
+    width: 100%;
+  }
   font-weight: bold;
-  font-size: 26px;
   background: #011627;
   display: flex;
   justify-content: center;
   align-items: center;
-  aspect-ratio: 1 / 1;
+  height: ${(props) => 50 / props.boardSize}vw;
+  width: ${(props) => 50 / props.boardSize}vw;
 `;
 
 const DivGameboard = styled.div<{ boardSize: number }>`
   display: grid;
   grid-template-columns: repeat(
     ${(props) => props.boardSize},
-    minmax(2rem, 5vh)
+    ${(props) => 50 / props.boardSize}vw
   );
-  grid-template-rows: repeat(${(props) => props.boardSize}, auto);
+  grid-template-rows: repeat(
+    ${(props) => props.boardSize},
+    ${(props) => 50 / props.boardSize}vw
+  );
   background: #0d314f;
   margin: 1rem;
   padding: 0.3rem;
@@ -221,6 +229,7 @@ export function TicTac() {
           return row.map((column, x) => {
             return (
               <DivPosition
+                boardSize={boardSize}
                 key={y.toString() + x.toString()}
                 onClick={() => move(x, y)}
               >
