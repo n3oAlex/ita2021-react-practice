@@ -1,5 +1,6 @@
 import { CMS } from "./cms/CMS";
 import { Chuck } from "./chuck/Chuck";
+import { HackerTyper } from "./hack/HackerTyper";
 import {
   NavLink,
   Route,
@@ -11,7 +12,6 @@ import { ReduxCounter } from "./redux/ReduxCounter";
 import { TicTac } from "./tictac/TicTac";
 import { TodoApp } from "./todo/TodoApp";
 import Clicker from "./click/Clicker";
-import HackerTyper from "./hack/HackerTyper";
 import styled from "styled-components";
 
 const DivMain = styled.div`
