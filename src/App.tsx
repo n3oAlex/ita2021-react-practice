@@ -1,4 +1,4 @@
-import { CMS } from "./cms/CMS";
+import { Blog } from "./blog/Blog";
 import { Chuck } from "./chuck/Chuck";
 import { HackerTyper } from "./hack/HackerTyper";
 import {
@@ -64,7 +64,7 @@ function App() {
 
           <LinkProject to="/pexeso">/pexeso</LinkProject>
 
-          <LinkProject to="/cms">/cms</LinkProject>
+          <LinkProject to="/blog">/blog</LinkProject>
 
           <LinkProject to="/chuck">/chuck</LinkProject>
 
@@ -91,8 +91,8 @@ function App() {
             <Route exact path="/pexeso">
               <Pexeso />
             </Route>
-            <Route path="/cms">
-              <CMS />
+            <Route path="/blog">
+              <Blog />
             </Route>
             <Route path="/chuck">
               <Chuck />

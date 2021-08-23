@@ -1,4 +1,4 @@
-import { BlogContext } from "./BlogContext";
+import { BlogContext, PostType } from "./BlogContext";
 import { theme } from "./theme";
 import { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -13,16 +13,16 @@ const DivErrorInfo = styled.div`
 `;
 
 const Label = styled.label`
-  margin-top: 2rem;
+  margin-top: 1.5rem;
   font-size: 1.4rem;
 `;
 
-const ButtonAddPost = styled.button`
+const ButtonSubmit = styled.button`
   background: ${theme.basicBg};
   border: ${theme.borderBasic};
   border-radius: ${theme.borderRadius};
   height: 3rem;
-  width: 10rem;
+  width: 7rem;
   margin-top: 2rem;
   align-self: flex-end;
   cursor: pointer;
@@ -33,7 +33,7 @@ const TextareaContent = styled.textarea`
   border: ${theme.borderBasic};
   border-radius: ${theme.borderRadius};
   padding: 1rem;
-  min-height: 20rem;
+  min-height: 18rem;
   max-width: 57.5vw;
   margin-top: 2rem;
   font-size: 1.2rem;
@@ -44,27 +44,27 @@ const InputText = styled.input`
   border: ${theme.borderBasic};
   border-radius: ${theme.borderRadius};
   padding: 0.5rem 1rem;
-  height: 3rem;
+  height: 2rem;
   font-size: 1.3rem;
 `;
 
-const DivNewPost = styled.div`
+const DivPostManager = styled.div`
   display: flex;
   flex-direction: column;
-  width: 60vw;
+  width: 50vw;
 `;
 
 const randomID = () => Math.random().toString(36).substr(2, 9);
 
-export const NewPost = () => {
-  const { addPost } = useContext(BlogContext);
-  const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
+export const PostManager = (props: { post?: PostType }) => {
+  const { addOrEditPost } = useContext(BlogContext);
+  const [content, setContent] = useState(props.post ? props.post.content : "");
+  const [title, setTitle] = useState(props.post ? props.post.title : "");
+  const [author, setAuthor] = useState(props.post ? props.post.author : "");
   const [error, setError] = useState("");
   const history = useHistory();
 
-  const handleAdd = () => {
+  const handleSubmit = () => {
     setError("");
     if (title.replace(" ", "") === "") {
       setError("Title is required");
@@ -74,18 +74,20 @@ export const NewPost = () => {
       setError("Author is required");
       return;
     }
-    addPost({
-      id: randomID(),
+
+    addOrEditPost({
+      id: props.post ? props.post.id : randomID(),
       title: DOMPurify.sanitize(title),
       content: DOMPurify.sanitize(content),
       author: DOMPurify.sanitize(author),
-      createdAt: Date.now(),
+      createdAt: props.post ? props.post.createdAt : Date.now(),
+      lastEditedAt: Date.now(),
     });
-    history.push("/cms");
+    history.push("/");
   };
 
   return (
-    <DivNewPost>
+    <DivPostManager>
       <DivErrorInfo>{error}</DivErrorInfo>
       <Label htmlFor="title">Title</Label>
       <InputText
@@ -104,7 +106,7 @@ export const NewPost = () => {
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />
-      <ButtonAddPost onClick={handleAdd}>Add</ButtonAddPost>
-    </DivNewPost>
+      <ButtonSubmit onClick={handleSubmit}>Submit</ButtonSubmit>
+    </DivPostManager>
   );
 };

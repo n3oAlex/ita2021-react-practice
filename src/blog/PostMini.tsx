@@ -31,7 +31,7 @@ const A = styled.a`
 export const PostMini = (props: { post: PostType }) => {
   const date = new Date(props.post.createdAt);
   return (
-    <A href={"/cms/post/" + props.post.id}>
+    <A href={"/blog/post/" + props.post.id}>
       <DivCard>
         <h1>{props.post.title}</h1>
         <DivInfo>
