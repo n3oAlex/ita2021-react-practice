@@ -75,6 +75,7 @@ function App() {
           <Switch>
             <Route exact path="/">
               <h1>Welcome home</h1>
+              <h2>Choose one of the projects from the menu above ⬆</h2>
             </Route>
             <Route exact path="/click">
               <Clicker />
