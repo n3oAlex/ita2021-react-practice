@@ -5,7 +5,7 @@ const DivJokeCard = styled.div`
   border: 1px solid;
   padding: 1rem;
   margin: 0.5rem;
-  width: 80vw;
+  width: 10rem;
 `;
 
 type JokeCardProps = { joke: Joke };

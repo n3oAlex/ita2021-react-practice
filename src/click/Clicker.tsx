@@ -1,22 +1,20 @@
 import { Component } from "react";
+import styled from "styled-components";
 
-//Just practicing inline styles
-const wrapStyle = {
-  width: "50%",
-  display: "flex",
-  flexDirection: "column" as "column",
-  alignItems: "center",
-  fontSize: "40px",
-};
+const H1 = styled.h1`
+  font-size: 3rem;
+`;
 
-const btnStyle = {
-  background: "transparent",
-  border: "none",
-  fontSize: "2em",
-  cursor: "pointer",
-  alignSelf: "center",
-};
+const H2 = styled.h2`
+  font-size: 2rem;
+`;
 
+const Button = styled.button`
+  background: none;
+  border: none;
+  font-size: 3rem;
+  cursor: pointer;
+`;
 export default class Clicker extends Component<{}, { CPS: string }> {
   clicks = {
     first: 0,
@@ -34,10 +32,9 @@ export default class Clicker extends Component<{}, { CPS: string }> {
   }
 
   registerClick() {
-    let date = new Date();
-    if (this.clicks.first === 0) {
-      this.clicks.first = date.getTime();
-    }
+    const date = new Date();
+    if (this.clicks.first === 0) this.clicks.first = date.getTime();
+
     this.clicks.last = date.getTime();
     this.clicks.count += 1;
 
@@ -51,8 +48,8 @@ export default class Clicker extends Component<{}, { CPS: string }> {
   }
 
   calculateCPS() {
-    let passed = this.clicks.last - this.clicks.first;
-    let cps = passed === 0 ? 1 : (this.clicks.count / passed) * 1000;
+    const passed = this.clicks.last - this.clicks.first;
+    const cps = passed === 0 ? 1 : (this.clicks.count / passed) * 1000;
     this.setState(() => {
       return {
         CPS:
@@ -69,13 +66,11 @@ export default class Clicker extends Component<{}, { CPS: string }> {
 
   render() {
     return (
-      <div style={wrapStyle}>
-        <p>Average clicks per second: </p>
-        <h1>{this.state.CPS}</h1>
-        <button style={btnStyle} onClick={this.registerClick}>
-          Click
-        </button>
-      </div>
+      <>
+        <H2>Average clicks per second: </H2>
+        <H1>{this.state.CPS}</H1>
+        <Button onClick={this.registerClick}>Click</Button>
+      </>
     );
   }
 }

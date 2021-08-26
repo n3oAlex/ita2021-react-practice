@@ -1,5 +1,6 @@
-import { CMS } from "./cms/CMS";
+import { Blog } from "./blog/Blog";
 import { Chuck } from "./chuck/Chuck";
+import { HackerTyper } from "./hack/HackerTyper";
 import {
   NavLink,
   Route,
@@ -9,10 +10,8 @@ import {
 import { Pexeso } from "./pexeso/Pexeso";
 import { ReduxCounter } from "./redux/ReduxCounter";
 import { TicTac } from "./tictac/TicTac";
+import { TodoApp } from "./todo/TodoApp";
 import Clicker from "./click/Clicker";
-import Counter from "./click/Counter";
-import HackerTyper from "./hack/HackerTyper";
-import TodoApp from "./todo/TodoApp";
 import styled from "styled-components";
 
 const DivMain = styled.div`
@@ -65,7 +64,7 @@ function App() {
 
           <LinkProject to="/pexeso">/pexeso</LinkProject>
 
-          <LinkProject to="/cms">/cms</LinkProject>
+          <LinkProject to="/blog">/blog</LinkProject>
 
           <LinkProject to="/chuck">/chuck</LinkProject>
 
@@ -78,7 +77,6 @@ function App() {
               <h1>Welcome home</h1>
             </Route>
             <Route exact path="/click">
-              <Counter />
               <Clicker />
             </Route>
             <Route path="/todo">
@@ -93,8 +91,8 @@ function App() {
             <Route exact path="/pexeso">
               <Pexeso />
             </Route>
-            <Route path="/cms">
-              <CMS />
+            <Route path="/blog">
+              <Blog />
             </Route>
             <Route path="/chuck">
               <Chuck />

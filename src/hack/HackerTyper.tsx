@@ -1,5 +1,6 @@
 import { Dummy } from "./dummyCode";
-import React, { Component } from "react";
+import { Helmet } from "react-helmet";
+import { useState } from "react";
 import styled from "styled-components";
 
 const DivButtons = styled.div`
@@ -9,8 +10,7 @@ const DivButtons = styled.div`
 `;
 
 const TextAreaConsole = styled.textarea`
-  height: 50vh;
-  width: 50vw;
+  height: 70vh;
   min-width: 350px;
   background: transparent;
   border: 2px solid #114068;
@@ -36,7 +36,7 @@ const DivTitleBar = styled.div`
 const DivWindow = styled.div`
   display: flex;
   flex-direction: column;
-  min-width: 350px;
+  width: 90vw;
   min-height: 450px;
 `;
 
@@ -52,56 +52,33 @@ const FILE = Dummy;
 const FILE_SIZE = FILE.length;
 const TOTAL_CHUNKS = Math.ceil(FILE_SIZE / CHUNK_SIZE);
 
-export default class HackerTyper extends Component<
-  {},
-  { currentChunk: number }
-> {
-  hackerConsole: any;
+export const HackerTyper = () => {
+  const [hackerConsole, setHackerConsole] = useState("");
+  const [currentChunk, setCurrentChunk] = useState(1);
 
-  constructor(props) {
-    super(props);
-    this.hackerConsole = React.createRef();
-    this.state = {
-      currentChunk: 1,
-    };
-  }
-
-  componentDidMount() {
-    document.title = "React showcase - HackerTyper";
-    this.hackerConsole.current.focus();
-  }
-
-  handleKeyPress = (e) => {
+  const handleKeyPress = (e) => {
     e.preventDefault();
-    this.pasteChunk();
-
-    this.hackerConsole.current.scrollTop =
-      this.hackerConsole.current.scrollHeight;
+    pasteChunk();
   };
 
-  pasteChunk() {
-    if (this.state.currentChunk >= TOTAL_CHUNKS) {
-      this.hackerConsole.current.value = "";
-      this.setState(() => {
-        return {
-          currentChunk: 1,
-        };
-      });
+  const pasteChunk = () => {
+    if (currentChunk >= TOTAL_CHUNKS) {
+      setHackerConsole("");
+      setCurrentChunk(1);
     }
 
-    const offset = (this.state.currentChunk - 1) * CHUNK_SIZE;
+    const offset = (currentChunk - 1) * CHUNK_SIZE;
     const currentFilePart = FILE.slice(offset, offset + CHUNK_SIZE);
 
-    this.hackerConsole.current.value += currentFilePart;
-    this.setState((p) => {
-      return {
-        currentChunk: p.currentChunk + 1,
-      };
-    });
-  }
+    setHackerConsole((p) => "" + p + currentFilePart);
+    setCurrentChunk((p) => p + 1);
+  };
 
-  render() {
-    return (
+  return (
+    <>
+      <Helmet>
+        <title>React showcase - HackerTyper</title>
+      </Helmet>
       <DivWindow>
         <DivTitleBar>
           <DivTitle>hackerConsole -- /pentagon/secrets/</DivTitle>
@@ -111,11 +88,8 @@ export default class HackerTyper extends Component<
             <DivButton color={"#ff000099"} />
           </DivButtons>
         </DivTitleBar>
-        <TextAreaConsole
-          ref={this.hackerConsole}
-          onKeyPress={this.handleKeyPress}
-        ></TextAreaConsole>
+        <TextAreaConsole value={hackerConsole} onChange={handleKeyPress} />
       </DivWindow>
-    );
-  }
-}
+    </>
+  );
+};

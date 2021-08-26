@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import marked from "marked";
 import styled from "styled-components";
 
-const ButtonRemove = styled.button`
+const ButtonInteract = styled.button`
   font-size: 1.2rem;
   border: ${theme.borderBasic};
   background: transparent;
@@ -35,12 +35,17 @@ export const Post = (props: { post: PostType }) => {
 
   const handleRemove = () => {
     removePost(props.post.id);
-    history.push("/cms");
+    history.push("/");
+  };
+
+  const handleEdit = () => {
+    history.push("/post/edit/" + props.post.id);
   };
 
   return (
     <DivPost>
-      <ButtonRemove onClick={handleRemove}>Remove post</ButtonRemove>
+      <ButtonInteract onClick={handleRemove}>Remove post</ButtonInteract>
+      <ButtonInteract onClick={handleEdit}>Edit post</ButtonInteract>
       <h1>{props.post.title}</h1>
       <div>written by {props.post.author}</div>
       <div>{date.toLocaleString()}</div>

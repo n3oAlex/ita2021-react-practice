@@ -1,4 +1,5 @@
 import { BlogProvider } from "./BlogContext";
+import { EditPost } from "./EditPost";
 import { Helmet } from "react-helmet";
 import {
   Link,
@@ -7,8 +8,8 @@ import {
   BrowserRouter as Router,
   Switch,
 } from "react-router-dom";
-import { NewPost } from "./NewPost";
 import { PostList } from "./PostList";
+import { PostManager } from "./PostManager";
 import { PostPage } from "./PostPage";
 import { theme } from "./theme";
 import styled from "styled-components";
@@ -32,23 +33,26 @@ const NavCmsLinks = styled.nav`
   border-bottom: ${theme.borderBasic};
 `;
 
-export const CMS = () => {
+export const Blog = () => {
   return (
     <BlogProvider>
-      <Router basename="/cms">
+      <Router basename="/blog">
         <Helmet>
           <title>CMS - ITA 2021</title>
         </Helmet>
         <NavCmsLinks>
           <LinkStyled to="/">Posts</LinkStyled>
-          <LinkStyled to="/new-post">+New Post</LinkStyled>
+          <LinkStyled to="/post/new">+New Post</LinkStyled>
         </NavCmsLinks>
         <Switch>
           <Route exact path="/">
             <PostList />
           </Route>
-          <Route exact path="/new-post">
-            <NewPost />
+          <Route exact path="/post/new">
+            <PostManager />
+          </Route>
+          <Route path="/post/edit/:slug">
+            <EditPost />
           </Route>
           <Route path="/post/:slug">
             <PostPage />
